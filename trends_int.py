@@ -27,3 +27,7 @@ plt.xlabel('Date')
 plt.ylabel('PETKM Search')
 plt.tight_layout()  # Grafiğin düzgün görünmesi için
 plt.show()
+save_path = "PETKM GT" # Hisseye göre farklı klasör seç
+year_month = timeframe[:7]
+save_name = f"{kw_list[0]} {year_month}"
+plt.savefig(f"{save_path}/{save_name}.png", format='png')
