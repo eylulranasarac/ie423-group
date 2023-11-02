@@ -24,7 +24,7 @@ plt.figure(figsize=(10, 5))
 plt.plot(trends_data.index, trends_data[kw_list[0]])
 plt.title('Monthly Search Amount of ' + str(company_name) +' in Turkey')
 plt.xlabel('Date')
-plt.ylabel(str(kw_list) + 'Search')
+plt.ylabel(str(company_name) + ' Search')
 plt.tight_layout()  # Grafiğin düzgün görünmesi için
 plt.show()
 save_path = "AKSA SP" # Hisseye göre farklı klasör seç
