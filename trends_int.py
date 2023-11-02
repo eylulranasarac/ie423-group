@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 pytrend = TrendReq()
 
 # Google Trends için sorgu ayarları
-kw_list = ["FROTO"]  # Örnek anahtar kelime listesi
-timeframe = '2018-08-01 2018-09-01'  # Belirli bir tarih aralığı
+kw_list = ["EREGL"]  # Örnek anahtar kelime listesi
+timeframe = '2018-09-01 2018-10-01'  # Belirli bir tarih aralığı
 pytrend.build_payload(kw_list, timeframe=timeframe, geo='TR')
 
 # Verileri al
@@ -27,7 +27,7 @@ plt.xlabel('Date')
 plt.ylabel(str(company_name) + ' Search')
 plt.tight_layout()  # Grafiğin düzgün görünmesi için
 plt.show()
-save_path = "FROTO GT" # Hisseye göre farklı klasör seç
+save_path = "EREGL" # Hisseye göre farklı klasör seç
 year_month = timeframe[:7]
 save_name = f"{kw_list[0]} {year_month}"
 plt.savefig(f"{save_path}/{save_name}.png", format='png')
