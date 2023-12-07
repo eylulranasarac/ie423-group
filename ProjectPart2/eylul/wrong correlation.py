@@ -8,7 +8,7 @@ import numpy as np
 import glob
 
 # Path to the directory containing your CSV files
-path = 'C:\\Users\EylülRanaSaraç\\OneDrive - boun.edu.tr\\Masaüstü\\IE 423\\Project Part 2\\golden-girlz\\ProjectPart2\\20180101_20231121_bist30'
+path = 'C:\\Users\\EylülRanaSaraç\\OneDrive - boun.edu.tr\\Masaüstü\\IE 423\\Project Part 2\\golden-girlz\\ProjectPart2\\20180101_20231121_bist30'
 all_files = glob.glob(path + "/*_bist30.csv")
 
 # Create a list to hold dataframes
