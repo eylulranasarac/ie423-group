@@ -35,7 +35,6 @@ df = pd.concat(df_list, ignore_index=True)
 df["timestamp"] = pd.to_datetime(df["timestamp"])
 df.set_index("timestamp", inplace=True)
 df = df.sort_values(by="timestamp")
-print(df)
 
 stock_names = df['short_name'].unique()
 all_df = pd.DataFrame()
