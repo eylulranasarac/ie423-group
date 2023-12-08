@@ -89,6 +89,7 @@ p_value_differenced_GARAN = result_differenced_GARAN[1]
     #print('The GARAN differenced time series is likely non-stationary.')
 
 # Plotting the differenced data for AKBNK
+plt.figure(figsize=(8, 4))
 plt.plot(differenced_data_AKBNK.index, differenced_data_AKBNK)
 plt.xlabel('Timestamp')
 plt.ylabel('Differenced Price')
@@ -96,6 +97,7 @@ plt.title('Differenced AKBNK Price Over Time')
 #plt.show()
 
 # Plotting the differenced data for GARAN
+plt.figure(figsize=(8, 4))
 plt.plot(differenced_data_GARAN.index, differenced_data_GARAN)
 plt.xlabel('Timestamp')
 plt.ylabel('Differenced Price')
@@ -195,6 +197,4 @@ if p_value_normal_GARAN <= 0.05:
     print('The residuals of GARAN are not normally distributed.')
 else:
     print('The residuals of GARAN are normally distributed.')
-
-
 
