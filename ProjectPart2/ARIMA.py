@@ -4,8 +4,7 @@ import matplotlib.pyplot as plt
 from statsmodels.tsa.stattools import adfuller
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from scipy.stats import normaltest
-
-
+import pmdarima as pm
 
 path = 'C:\\Users\\ASUS\\Desktop\\423ProjectPart2\\data'
 all_files = glob.glob(path + "/*_bist30.csv")
