@@ -87,7 +87,7 @@ else:
     print('The GARAN differenced time series is likely non-stationary.')
 
 # Plotting the differenced data for AKBNK
-plt.figure(figsize=(8, 4))  # Genişliği 12 inç ve yüksekliği 6 inç yapar
+
 plt.plot(differenced_data_AKBNK.index, differenced_data_AKBNK)
 plt.xlabel('Timestamp')
 plt.ylabel('Differenced Price')
