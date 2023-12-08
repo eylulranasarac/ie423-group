@@ -2,7 +2,10 @@ import glob
 import pandas as pd
 import matplotlib.pyplot as plt
 from statsmodels.tsa.stattools import adfuller
-from pmdarima import auto_arima
+from statsmodels.tsa.statespace.sarimax import SARIMAX
+from scipy.stats import normaltest
+
+
 
 path = 'C:\\Users\\ASUS\\Desktop\\423ProjectPart2\\data'
 all_files = glob.glob(path + "/*_bist30.csv")
@@ -100,52 +103,99 @@ plt.ylabel('Differenced Price')
 plt.title('Differenced GARAN Price Over Time')
 #plt.show()
 
+order_AKBNK = (1, 1, 1)
+model_AKBNK = SARIMAX(differenced_data_AKBNK, order=order_AKBNK)
+model_AKBNK_fit = model_AKBNK.fit()
 
-model_AKBNK = auto_arima(differenced_data_AKBNK, seasonal=False, trace=True, suppress_warnings=True)
-model_AKBNK.fit(differenced_data_AKBNK)
+# Print the fitted model summary for AKBNK
+print(model_AKBNK_fit.summary())
 
-# Auto ARIMA model for GARAN
-model_GARAN = auto_arima(differenced_data_GARAN, seasonal=False, trace=True, suppress_warnings=True)
-model_GARAN.fit(differenced_data_GARAN)
+# Make predictions for AKBNK
+steps_AKBNK = 10
+forecast_AKBNK = model_AKBNK_fit.get_forecast(steps=steps_AKBNK)
+forecast_index_AKBNK = pd.date_range(start=combined_data_AKBNK.index[-1], periods=steps_AKBNK + 1, freq='B')[1:]
 
-# Print the model summary for AKBNK
-print("Auto ARIMA Model Summary for AKBNK:")
-print(model_AKBNK.summary())
+# Plotting the differenced AKBNK data
+plt.plot(differenced_data_AKBNK.index, differenced_data_AKBNK, label='Differenced AKBNK Data')
 
-# Print the model summary for GARAN
-print("Auto ARIMA Model Summary for GARAN:")
-print(model_GARAN.summary())
-# Forecast future values for AKBNK
-future_steps = 10  # You can adjust the number of steps into the future
-forecast_AKBNK, conf_int_AKBNK = model_AKBNK.predict(n_periods=future_steps, return_conf_int=True)
+# Plotting the AKBNK forecast
+plt.plot(forecast_index_AKBNK, forecast_AKBNK.predicted_mean.values, label='AKBNK Forecast', linestyle='dashed')
 
-# Forecast future values for GARAN
-forecast_GARAN, conf_int_GARAN = model_GARAN.predict(n_periods=future_steps, return_conf_int=True)
+# Plotting AKBNK confidence intervals
+conf_int_AKBNK = forecast_AKBNK.conf_int()
+plt.fill_between(forecast_index_AKBNK, conf_int_AKBNK['lower price'], conf_int_AKBNK['upper price'], alpha=0.2)
 
-# Plotting the results for AKBNK
-plt.plot(differenced_data_AKBNK.index, differenced_data_AKBNK, label='Actual AKBNK Differenced Data')
-plt.plot(pd.date_range(start=differenced_data_AKBNK.index[-1], periods=future_steps+1, freq='B')[1:], forecast_AKBNK, label='Forecasted AKBNK Differenced Data', color='red')
-plt.fill_between(pd.date_range(start=differenced_data_AKBNK.index[-1], periods=future_steps+1, freq='B')[1:], conf_int_AKBNK[:, 0], conf_int_AKBNK[:, 1], color='red', alpha=0.2)
 plt.xlabel('Timestamp')
 plt.ylabel('Differenced Price')
-plt.title('Auto ARIMA Forecast for AKBNK Differenced Data')
+plt.title('AKBNK Differenced Price Forecast (Manual ARIMA)')
 plt.legend()
-plt.grid(True)
-plt.show()
+#plt.show()
 
-# Plotting the results for GARAN
-plt.plot(differenced_data_GARAN.index, differenced_data_GARAN, label='Actual GARAN Differenced Data')
-plt.plot(pd.date_range(start=differenced_data_GARAN.index[-1], periods=future_steps+1, freq='B')[1:], forecast_GARAN, label='Forecasted GARAN Differenced Data', color='red')
-plt.fill_between(pd.date_range(start=differenced_data_GARAN.index[-1], periods=future_steps+1, freq='B')[1:], conf_int_GARAN[:, 0], conf_int_GARAN[:, 1], color='pink', alpha=0.2)
+order_GARAN = (1, 1, 1)
+model_GARAN = SARIMAX(differenced_data_GARAN, order=order_GARAN)
+model_GARAN_fit = model_GARAN.fit()
+
+# Print the fitted model summary for GARAN
+print(model_GARAN_fit.summary())
+
+# Make predictions for GARAN
+steps_GARAN = 10
+forecast_GARAN = model_GARAN_fit.get_forecast(steps=steps_GARAN)
+forecast_index_GARAN = pd.date_range(start=combined_data_GARAN.index[-1], periods=steps_GARAN + 1, freq='B')[1:]
+
+# Plotting the differenced GARAN data
+plt.plot(differenced_data_GARAN.index, differenced_data_GARAN, label='Differenced GARAN Data')
+
+# Plotting the GARAN forecast
+plt.plot(forecast_index_GARAN, forecast_GARAN.predicted_mean.values, label='GARAN Forecast', linestyle='dashed')
+
+# Plotting GARAN confidence intervals
+conf_int_GARAN = forecast_GARAN.conf_int()
+plt.fill_between(forecast_index_GARAN, conf_int_GARAN['lower price'], conf_int_GARAN['upper price'], alpha=0.2)
+
 plt.xlabel('Timestamp')
 plt.ylabel('Differenced Price')
-plt.title('Auto ARIMA Forecast for GARAN Differenced Data')
+plt.title('GARAN Differenced Price Forecast (Manual ARIMA)')
 plt.legend()
-plt.grid(True)
-plt.show()
+#plt.show()
+
+# Residuals for AKBNK
+residuals_AKBNK = differenced_data_AKBNK - model_AKBNK_fit.fittedvalues
+
+# Residuals for GARAN
+residuals_GARAN = differenced_data_GARAN - model_GARAN_fit.fittedvalues
 
 
+# ADF test for residuals of AKBNK
+result_residuals_AKBNK = adfuller(residuals_AKBNK)
+p_value_residuals_AKBNK = result_residuals_AKBNK[1]
+if p_value_residuals_AKBNK <= 0.05:
+    print('The residuals of AKBNK are likely stationary.')
+else:
+    print('The residuals of AKBNK are likely non-stationary.')
 
+# ADF test for residuals of GARAN
+result_residuals_GARAN = adfuller(residuals_GARAN)
+p_value_residuals_GARAN = result_residuals_GARAN[1]
+if p_value_residuals_GARAN <= 0.05:
+    print('The residuals of GARAN are likely stationary.')
+else:
+    print('The residuals of GARAN are likely non-stationary.')
+
+
+# Normality test for AKBNK residuals
+_, p_value_normal_AKBNK = normaltest(residuals_AKBNK)
+if p_value_normal_AKBNK <= 0.05:
+    print('The residuals of AKBNK are not normally distributed.')
+else:
+    print('The residuals of AKBNK are normally distributed.')
+
+# Normality test for GARAN residuals
+_, p_value_normal_GARAN = normaltest(residuals_GARAN)
+if p_value_normal_GARAN <= 0.05:
+    print('The residuals of GARAN are not normally distributed.')
+else:
+    print('The residuals of GARAN are normally distributed.')
 
 
 
