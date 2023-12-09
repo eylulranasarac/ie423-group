@@ -166,6 +166,8 @@ residuals_AKBNK = differenced_data_AKBNK - model_AKBNK_fit.fittedvalues
 # Residuals for GARAN
 residuals_GARAN = differenced_data_GARAN - model_GARAN_fit.fittedvalues
 
+print(combined_data_AKBNK.columns)
+
 
 # ADF test for residuals of AKBNK
 result_residuals_AKBNK = adfuller(residuals_AKBNK)
@@ -197,4 +199,5 @@ if p_value_normal_GARAN <= 0.05:
     print('The residuals of GARAN are not normally distributed.')
 else:
     print('The residuals of GARAN are normally distributed.')
+
 
