@@ -7,7 +7,9 @@ from sklearn.linear_model import LinearRegression
 from statsmodels.tsa.stattools import adfuller
 
 
-path = 'C:\\Users\\ASUS\\Desktop\\423ProjectPart2\\data'
+# path = 'C:\\Users\\ASUS\\Desktop\\423ProjectPart2\\data'
+path = 'C:\\Users\\EylülRanaSaraç\\OneDrive - boun.edu.tr\\Masaüstü\\IE 423\\Project Part 2\\golden-girlz\\ProjectPart2\\20180101_20231121_bist30'
+
 all_files = glob.glob(path + "/*_bist30.csv")
  
 specified_files = [
@@ -221,6 +223,8 @@ plt.axhline(UCL, color = 'r', linestyle = '--')#
 plt.axhline(LCL, color = 'r', linestyle = '--')
 plt.xlabel("Timestamp")
 plt.ylabel("residuals")
+
+
 
 prices = all_df_2021[["AKBNK","GARAN"]]
 signals = np.where(residuals_2021 < LCL, 1, np.where(residuals_2021 > UCL, -1, 0))
