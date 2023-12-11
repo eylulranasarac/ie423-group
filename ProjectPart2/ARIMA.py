@@ -200,4 +200,3 @@ if p_value_normal_GARAN <= 0.05:
 else:
     print('The residuals of GARAN are normally distributed.')
 
-
