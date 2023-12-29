@@ -4,7 +4,6 @@ import numpy as np
 from scipy.signal import wiener
 
 image_path = "ProjectPart3\\rawimage\\0012.jpg"
-# image_path = "C:\\Users\\EylülRanaSaraç\\OneDrive - boun.edu.tr\\Masaüstü\\IE 423\\Project Part 2\\golden-girlz\\ProjectPart3\\rawimage\\0012.jpg"
 
 original_image = cv2.imread(image_path)
 
