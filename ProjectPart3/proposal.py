@@ -4,6 +4,7 @@ import numpy as np
 from scipy.signal import wiener
 
 image_path = "ProjectPart3\\rawimage\\0012.jpg"
+# image_path = "C:\\Users\\EylülRanaSaraç\\OneDrive - boun.edu.tr\\Masaüstü\\IE 423\\Project Part 2\\golden-girlz\\ProjectPart3\\rawimage\\0012.jpg"
 
 original_image = cv2.imread(image_path)
 
@@ -74,7 +75,7 @@ for label in range(1, num_labels):
     if stats[label, cv2.CC_STAT_AREA] < min_pixel_size:
         binary_image[labels == label] = 0
 
-plt.subplot(2, 5, 7)
+plt.subplot(2, 5, 6)
 plt.imshow(binary_image, cmap='gray')
 plt.title("Segmented Image")
 plt.axis('off')
@@ -82,7 +83,12 @@ plt.axis('off')
 
 
 # Apply Wiener Filter
-filtered_image = wiener(binary_image, (1, 1))
+filtered_image = wiener(binary_image, (2, 2))
+
+plt.subplot(2, 5, 7)
+plt.imshow(filtered_image, cmap='gray')
+plt.title("Filtered Image")
+plt.axis('off')
 
 # Find contours (ROIs) in the filtered image
 contours, _ = cv2.findContours(filtered_image.astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -96,7 +102,7 @@ cv2.drawContours(output_image, [largest_contour], -1, (255, 255, 255), thickness
 
 # Display the results using matplotlib
 
-plt.subplot(2, 5, 8)
+plt.subplot(2, 5, 10)
 plt.imshow(output_image, cmap='gray')
 plt.title("Detected Fabric Defect")
 plt.axis('off')
