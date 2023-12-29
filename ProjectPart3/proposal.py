@@ -82,7 +82,7 @@ plt.axis('off')
 
 
 # Apply Wiener Filter
-filtered_image = wiener(binary_image, (2, 2))
+filtered_image = wiener(binary_image, (1, 1))
 
 # Find contours (ROIs) in the filtered image
 contours, _ = cv2.findContours(filtered_image.astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -101,5 +101,5 @@ plt.imshow(output_image, cmap='gray')
 plt.title("Detected Fabric Defect")
 plt.axis('off')
 
-plt.subplots_adjust(wspace=0.5, hspace=0.5)
+plt.subplots_adjust(hspace=0)
 plt.show()
