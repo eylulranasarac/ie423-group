@@ -4,6 +4,7 @@ import cv2
 
 # Fotoğraf dosyasının adını ve yolunu belirtin
 image_path = "C:/Users/ASUS/Desktop/423-part3/0076.jpg"
+# image_path = "rawimage\\0076.jpg"
 
 # OpenCV ile resmi yükle
 # Grayscale olarak oku
