@@ -3,8 +3,7 @@ import matplotlib.pyplot as plt
 import cv2
 
 # Fotoğraf dosyasının adını ve yolunu belirtin
-image_path = "C:/Users/ASUS/Desktop/423-part3/0076.jpg"
-# image_path = "rawimage\\0076.jpg"
+image_path = "C:/Users/ASUS/Desktop/423-part3/0012.jpg"
 
 # OpenCV ile resmi yükle
 # Grayscale olarak oku
@@ -22,8 +21,8 @@ def calculate_control_limits_per_row(data):
     # Calculate control limits for each row
     control_limits = {
         f"Row {i + 1}": {
-            "Upper Limit": row_means[i] + 1 * row_std_devs[i],
-            "Lower Limit": row_means[i] - 1 * row_std_devs[i]
+            "Upper Limit": row_means[i] + 2 * row_std_devs[i],
+            "Lower Limit": row_means[i] - 2 * row_std_devs[i]
         } for i in range(num_rows)
     }
 
@@ -38,8 +37,8 @@ def calculate_control_limits_per_column(data):
     # Calculate control limits for each column
     control_limits = {
         f"Column {j + 1}": {
-            "Upper Limit": col_means[j] + 1 * col_std_devs[j],
-            "Lower Limit": col_means[j] - 1 * col_std_devs[j]
+            "Upper Limit": col_means[j] + 2 * col_std_devs[j],
+            "Lower Limit": col_means[j] - 2 * col_std_devs[j]
         } for j in range(num_cols)
     }
 
